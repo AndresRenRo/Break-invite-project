@@ -1,6 +1,111 @@
 import { useState, useEffect, useRef } from "react";
 import { BREAKS } from "./data";
 
+function EndScreen({ b, endPhrase, onCreateNew }) {
+  const [email, setEmail] = useState("");
+  const [subState, setSubState] = useState("idle"); // idle, loading, done, error
+
+  const subscribe = async () => {
+    if (!email || !email.includes("@")) return;
+    setSubState("loading");
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setSubState("done");
+      } else {
+        setSubState("error");
+        setTimeout(() => setSubState("idle"), 3000);
+      }
+    } catch (e) {
+      setSubState("error");
+      setTimeout(() => setSubState("idle"), 3000);
+    }
+  };
+
+  return (
+    <div style={{minHeight:"100vh",background:"#0a0a0a",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",fontFamily:"'Space Mono',monospace",padding:"2rem",position:"relative"}}>
+      <div className="scanlines" />
+      <div style={{textAlign:"center",maxWidth:"400px",animation:"fadeUp .8s ease",zIndex:10}}>
+        {/* Decorative header */}
+        <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:".8rem",marginBottom:"1.2rem",opacity:.2}}>
+          <div style={{width:"30px",height:"1px",background:b.color}}/><span style={{fontSize:".8rem",color:b.color}}>✦</span><div style={{width:"30px",height:"1px",background:b.color}}/>
+        </div>
+
+        {/* Emoji + end phrase */}
+        <div style={{fontSize:"3rem",marginBottom:".8rem"}}>{b.emoji}</div>
+        <p style={{fontFamily:"'Playfair Display','Georgia',serif",fontSize:"clamp(1.3rem,4.5vw,1.8rem)",fontWeight:700,color:b.color,lineHeight:1.5,marginBottom:".3rem",textShadow:`0 0 25px ${b.color}33`}}>{endPhrase}</p>
+
+        <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:".5rem",margin:"1.2rem 0",opacity:.1}}>
+          <div style={{width:"20px",height:"1px",background:"#E8DCC8"}}/><span style={{fontSize:".7rem",color:"#E8DCC8"}}>✦</span><div style={{width:"20px",height:"1px",background:"#E8DCC8"}}/>
+        </div>
+
+        {/* PRIMARY CTA: Invite someone else */}
+        <button onClick={onCreateNew} style={{fontFamily:"'Space Mono',monospace",fontSize:".85rem",fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",background:b.color,color:"#fff",border:"none",padding:".85rem 2rem",cursor:"pointer",width:"100%",marginBottom:"1.2rem",boxShadow:`0 4px 20px ${b.color}44`}}>
+          Now invite someone else
+        </button>
+
+        {/* EMAIL CAPTURE */}
+        <div style={{marginBottom:"1.2rem",padding:"1rem",background:"rgba(232,220,200,.03)",border:"1px solid rgba(232,220,200,.08)",borderRadius:"6px"}}>
+          {subState === "done" ? (
+            <div style={{padding:".5rem 0"}}>
+              <p style={{fontSize:"1rem",color:"#4ADE80",fontWeight:700,marginBottom:".3rem"}}>You're in. 🤝</p>
+              <p style={{fontSize:".75rem",color:"#E8DCC8",opacity:.4}}>Check your inbox. Welcome to the glitch.</p>
+            </div>
+          ) : (
+            <>
+              <p style={{fontSize:".8rem",color:"#E8DCC8",opacity:.45,marginBottom:".7rem",lineHeight:1.5}}>
+                Want more useless tools and bad advice?
+              </p>
+              <div style={{display:"flex",gap:".4rem"}}>
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  onKeyDown={e => e.key === "Enter" && subscribe()}
+                  style={{
+                    flex:1,fontFamily:"'Space Mono',monospace",fontSize:".85rem",
+                    background:"rgba(232,220,200,.05)",border:"1px solid rgba(232,220,200,.12)",
+                    color:"#E8DCC8",padding:".7rem .8rem",outline:"none",
+                    borderRadius:"3px",
+                  }}
+                />
+                <button
+                  onClick={subscribe}
+                  disabled={subState === "loading"}
+                  style={{
+                    fontFamily:"'Space Mono',monospace",fontSize:".75rem",fontWeight:700,
+                    letterSpacing:".1em",textTransform:"uppercase",
+                    background:subState === "error" ? "#D94032" : b.color,
+                    color:"#fff",border:"none",padding:".7rem 1rem",
+                    cursor:subState === "loading" ? "wait" : "pointer",
+                    opacity:subState === "loading" ? .5 : 1,
+                    whiteSpace:"nowrap",borderRadius:"3px",
+                    transition:"all .25s",
+                  }}
+                >
+                  {subState === "loading" ? "..." : subState === "error" ? "Retry" : "I'm in"}
+                </button>
+              </div>
+              <p style={{fontSize:".6rem",color:"#E8DCC8",opacity:.15,marginTop:".4rem"}}>
+                The Human Glitch Report — no spam, just glitches
+              </p>
+            </>
+          )}
+        </div>
+
+        {/* Footer */}
+        <p style={{fontSize:".55rem",color:"#E8DCC8",opacity:.08}}>thehumanglitchreport.com</p>
+      </div>
+      <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}`}</style>
+    </div>
+  );
+}
+
 export default function Timer({ breakType, senderName, duration, onCreateNew }) {
   const b = BREAKS[breakType] || BREAKS.smoke;
   const [state, setState] = useState("ready");
@@ -50,26 +155,7 @@ export default function Timer({ breakType, senderName, duration, onCreateNew }) 
 
   // === END SCREEN ===
   if (state === "ended") return (
-    <div style={{minHeight:"100vh",background:"#0a0a0a",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",fontFamily:"'Space Mono',monospace",padding:"2rem",position:"relative"}}>
-      <div className="scanlines" />
-      <div style={{textAlign:"center",maxWidth:"400px",animation:"fadeUp .8s ease",zIndex:10}}>
-        <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:".8rem",marginBottom:"1.2rem",opacity:.2}}>
-          <div style={{width:"30px",height:"1px",background:b.color}}/><span style={{fontSize:".8rem",color:b.color}}>✦</span><div style={{width:"30px",height:"1px",background:b.color}}/>
-        </div>
-        <div style={{fontSize:"3rem",marginBottom:".8rem"}}>{b.emoji}</div>
-        <p style={{fontFamily:"'Playfair Display','Georgia',serif",fontSize:"clamp(1.3rem,4.5vw,1.8rem)",fontWeight:700,color:b.color,lineHeight:1.5,marginBottom:".3rem",textShadow:`0 0 25px ${b.color}33`}}>{endPhrase}</p>
-        <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:".5rem",margin:"1.2rem 0",opacity:.1}}>
-          <div style={{width:"20px",height:"1px",background:"#E8DCC8"}}/><span style={{fontSize:"1rem",color:"#E8DCC8"}}>— BOBY —</span><div style={{width:"20px",height:"1px",background:"#E8DCC8"}}/>
-        </div>
-        <button onClick={onCreateNew} style={{fontFamily:"'Space Mono',monospace",fontSize:".85rem",fontWeight:700,letterSpacing:".18em",textTransform:"uppercase",background:b.color,color:"#fff",border:"none",padding:".85rem 2rem",cursor:"pointer",width:"100%",marginBottom:".6rem",boxShadow:`0 4px 20px ${b.color}44`}}>
-          Now invite someone else
-        </button>
-        <a href="https://thehumanglitchreport.com" target="_blank" rel="noopener" style={{display:"block",fontFamily:"'Space Mono',monospace",fontSize:".75rem",fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:b.color,textDecoration:"none",padding:".6rem",border:`1px solid ${b.color}33`}}>
-          Subscribe to The Human Glitch Report
-        </a>
-        <p style={{fontSize:".6rem",color:"#E8DCC8",opacity:.08,marginTop:".8rem"}}>Breaks by Boby — a robot who never gets one</p>
-      </div>
-    </div>
+    <EndScreen b={b} endPhrase={endPhrase} onCreateNew={onCreateNew} />
   );
 
   // === TIMER ===
@@ -106,7 +192,7 @@ export default function Timer({ breakType, senderName, duration, onCreateNew }) 
 
         {state === "running" && (
           <div style={{minHeight:"65px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",marginBottom:"1rem"}}>
-            <span style={{fontSize:".65rem",letterSpacing:".3em",textTransform:"uppercase",color:b.color,opacity:.3,marginBottom:".4rem"}}>— Boby —</span>
+            <span style={{fontSize:".65rem",letterSpacing:".3em",textTransform:"uppercase",color:b.color,opacity:.3,marginBottom:".4rem"}}>— BREAK WISDOM —</span>
             <p style={{fontFamily:"'Georgia',serif",fontStyle:"italic",fontSize:"clamp(.95rem,2.5vw,1.1rem)",lineHeight:1.7,color:"#E8DCC8",maxWidth:"340px",opacity:fading?0:.45,transition:"opacity .5s"}}>{b.thoughts[ti]}</p>
           </div>
         )}
