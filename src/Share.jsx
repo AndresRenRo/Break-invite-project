@@ -28,7 +28,7 @@ export default function Share({ url, breakType }) {
         <div style={{fontSize:"1rem",letterSpacing:".35em",textTransform:"uppercase",color:b.color,opacity:.5,marginBottom:"1rem"}}>{b.label} Invite Ready</div>
         <div style={{fontSize:"2.8rem",marginBottom:".7rem"}}>{b.emoji}</div>
         <p style={{fontFamily:"'Georgia',serif",fontStyle:"italic",fontSize:".95rem",color:"#E8DCC8",opacity:.35,marginBottom:"1rem",lineHeight:1.6}}>
-          The invite is sealed. Send this link.<br/>Don't explain it. Let Boby handle the rest.
+          The invite is sealed. Send this link.<br/>Don't explain it. The rest handles itself.
         </p>
         <div style={{background:"rgba(232,220,200,.03)",border:"1px solid rgba(232,220,200,.08)",padding:".55rem .7rem",fontSize:"1rem",color:"#E8DCC8",opacity:.4,wordBreak:"break-all",lineHeight:1.5,marginBottom:".7rem",borderRadius:"3px"}}>{url}</div>
         <button onClick={copy} style={{fontFamily:"'Space Mono',monospace",fontSize:".85rem",fontWeight:700,letterSpacing:".18em",textTransform:"uppercase",background:copied?"#4ADE80":b.color,color:copied?"#0a0a0a":"#fff",border:"none",padding:".75rem 2rem",cursor:"pointer",width:"100%",transition:"all .3s",boxShadow:`0 4px 15px ${b.color}33`}}>
