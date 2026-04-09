@@ -56,18 +56,18 @@ export default function Timer({ breakType, senderName, duration, onCreateNew }) 
         <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:".8rem",marginBottom:"1.2rem",opacity:.2}}>
           <div style={{width:"30px",height:"1px",background:b.color}}/><span style={{fontSize:".8rem",color:b.color}}>✦</span><div style={{width:"30px",height:"1px",background:b.color}}/>
         </div>
-        <div style={{fontSize:"2.2rem",marginBottom:".8rem"}}>{b.emoji}</div>
-        <p style={{fontFamily:"'Playfair Display','Georgia',serif",fontSize:"clamp(1rem,3.5vw,1.35rem)",fontWeight:700,color:b.color,lineHeight:1.5,marginBottom:".3rem",textShadow:`0 0 25px ${b.color}33`}}>{endPhrase}</p>
+        <div style={{fontSize:"3rem",marginBottom:".8rem"}}>{b.emoji}</div>
+        <p style={{fontFamily:"'Playfair Display','Georgia',serif",fontSize:"clamp(1.3rem,4.5vw,1.8rem)",fontWeight:700,color:b.color,lineHeight:1.5,marginBottom:".3rem",textShadow:`0 0 25px ${b.color}33`}}>{endPhrase}</p>
         <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:".5rem",margin:"1.2rem 0",opacity:.1}}>
-          <div style={{width:"20px",height:"1px",background:"#E8DCC8"}}/><span style={{fontSize:".38rem",color:"#E8DCC8"}}>— BOBY —</span><div style={{width:"20px",height:"1px",background:"#E8DCC8"}}/>
+          <div style={{width:"20px",height:"1px",background:"#E8DCC8"}}/><span style={{fontSize:"1rem",color:"#E8DCC8"}}>— BOBY —</span><div style={{width:"20px",height:"1px",background:"#E8DCC8"}}/>
         </div>
-        <button onClick={onCreateNew} style={{fontFamily:"'Space Mono',monospace",fontSize:".55rem",fontWeight:700,letterSpacing:".18em",textTransform:"uppercase",background:b.color,color:"#fff",border:"none",padding:".85rem 2rem",cursor:"pointer",width:"100%",marginBottom:".6rem",boxShadow:`0 4px 20px ${b.color}44`}}>
+        <button onClick={onCreateNew} style={{fontFamily:"'Space Mono',monospace",fontSize:".85rem",fontWeight:700,letterSpacing:".18em",textTransform:"uppercase",background:b.color,color:"#fff",border:"none",padding:".85rem 2rem",cursor:"pointer",width:"100%",marginBottom:".6rem",boxShadow:`0 4px 20px ${b.color}44`}}>
           Now invite someone else
         </button>
-        <a href="https://thehumanglitchreport.com" target="_blank" rel="noopener" style={{display:"block",fontFamily:"'Space Mono',monospace",fontSize:".45rem",fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:b.color,textDecoration:"none",padding:".6rem",border:`1px solid ${b.color}33`}}>
+        <a href="https://thehumanglitchreport.com" target="_blank" rel="noopener" style={{display:"block",fontFamily:"'Space Mono',monospace",fontSize:".75rem",fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:b.color,textDecoration:"none",padding:".6rem",border:`1px solid ${b.color}33`}}>
           Subscribe to The Human Glitch Report
         </a>
-        <p style={{fontSize:".3rem",color:"#E8DCC8",opacity:.08,marginTop:".8rem"}}>Breaks by Boby — a robot who never gets one</p>
+        <p style={{fontSize:".6rem",color:"#E8DCC8",opacity:.08,marginTop:".8rem"}}>Breaks by Boby — a robot who never gets one</p>
       </div>
     </div>
   );
@@ -88,8 +88,8 @@ export default function Timer({ breakType, senderName, duration, onCreateNew }) 
       ))}
 
       <div style={{position:"relative",zIndex:10,maxWidth:"400px",width:"100%",textAlign:"center"}}>
-        <div style={{fontSize:".4rem",letterSpacing:".35em",textTransform:"uppercase",color:b.color,opacity:.5,marginBottom:".3rem"}}>{b.label}</div>
-        {senderName && <p style={{fontSize:".48rem",color:"#E8DCC8",opacity:.2,marginBottom:"1.2rem"}}>with {senderName}</p>}
+        <div style={{fontSize:"1rem",letterSpacing:".35em",textTransform:"uppercase",color:b.color,opacity:.5,marginBottom:".3rem"}}>{b.label}</div>
+        {senderName && <p style={{fontSize:".8rem",color:"#E8DCC8",opacity:.2,marginBottom:"1.2rem"}}>with {senderName}</p>}
 
         <div style={{position:"relative",width:"160px",height:"160px",margin:"0 auto 1rem"}}>
           <svg viewBox="0 0 130 130" style={{width:"100%",height:"100%",transform:"rotate(-90deg)"}}>
@@ -97,8 +97,8 @@ export default function Timer({ breakType, senderName, duration, onCreateNew }) 
             <circle cx="65" cy="65" r={radius} fill="none" stroke={b.color} strokeWidth="3" strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={state==="ready"?circ:offset} style={{transition:"stroke-dashoffset 1s linear"}}/>
           </svg>
           <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-            <span style={{fontSize:"1.5rem",marginBottom:".15rem"}}>{b.emoji}</span>
-            <span style={{fontFamily:"'Playfair Display','Georgia',serif",fontSize:"1.5rem",color:"#E8DCC8",letterSpacing:".05em"}}>
+            <span style={{fontSize:"2rem",marginBottom:".2rem"}}>{b.emoji}</span>
+            <span style={{fontFamily:"'Playfair Display','Georgia',serif",fontSize:"2.2rem",color:"#E8DCC8",letterSpacing:".05em"}}>
               {state==="ready"?`${Math.floor(totalDur/60)}:00`:`${m}:${s<10?'0':''}${s}`}
             </span>
           </div>
@@ -106,18 +106,18 @@ export default function Timer({ breakType, senderName, duration, onCreateNew }) 
 
         {state === "running" && (
           <div style={{minHeight:"65px",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",marginBottom:"1rem"}}>
-            <span style={{fontSize:".33rem",letterSpacing:".3em",textTransform:"uppercase",color:b.color,opacity:.3,marginBottom:".4rem"}}>— Boby —</span>
-            <p style={{fontFamily:"'Georgia',serif",fontStyle:"italic",fontSize:"clamp(.68rem,1.6vw,.78rem)",lineHeight:1.7,color:"#E8DCC8",maxWidth:"340px",opacity:fading?0:.45,transition:"opacity .5s"}}>{b.thoughts[ti]}</p>
+            <span style={{fontSize:".65rem",letterSpacing:".3em",textTransform:"uppercase",color:b.color,opacity:.3,marginBottom:".4rem"}}>— Boby —</span>
+            <p style={{fontFamily:"'Georgia',serif",fontStyle:"italic",fontSize:"clamp(.95rem,2.5vw,1.1rem)",lineHeight:1.7,color:"#E8DCC8",maxWidth:"340px",opacity:fading?0:.45,transition:"opacity .5s"}}>{b.thoughts[ti]}</p>
           </div>
         )}
 
         {state === "ready" && (
-          <p style={{fontFamily:"'Georgia',serif",fontStyle:"italic",fontSize:".65rem",color:"#E8DCC8",opacity:.3,marginBottom:"1rem",lineHeight:1.6}}>"{b.invite}"</p>
+          <p style={{fontFamily:"'Georgia',serif",fontStyle:"italic",fontSize:".95rem",color:"#E8DCC8",opacity:.3,marginBottom:"1rem",lineHeight:1.6}}>"{b.invite}"</p>
         )}
 
         <div style={{display:"flex",flexDirection:"column",gap:".5rem",alignItems:"center",marginBottom:"1rem"}}>
           {state === "ready" && (
-            <button onClick={startTimer} style={{fontFamily:"'Space Mono',monospace",fontSize:".6rem",fontWeight:700,letterSpacing:".18em",textTransform:"uppercase",background:b.color,color:"#fff",border:"none",padding:".8rem 2.5rem",cursor:"pointer",boxShadow:`0 4px 18px ${b.color}44`}}>
+            <button onClick={startTimer} style={{fontFamily:"'Space Mono',monospace",fontSize:".9rem",fontWeight:700,letterSpacing:".18em",textTransform:"uppercase",background:b.color,color:"#fff",border:"none",padding:".8rem 2.5rem",cursor:"pointer",boxShadow:`0 4px 18px ${b.color}44`}}>
               Start
             </button>
           )}
@@ -130,7 +130,7 @@ export default function Timer({ breakType, senderName, duration, onCreateNew }) 
           )}
         </div>
 
-        <a href="https://thehumanglitchreport.com" target="_blank" rel="noopener" style={{fontFamily:"'Space Mono',monospace",fontSize:".35rem",letterSpacing:".2em",textTransform:"uppercase",color:"#E8DCC8",textDecoration:"none",opacity:.1}}>thehumanglitchreport.com</a>
+        <a href="https://thehumanglitchreport.com" target="_blank" rel="noopener" style={{fontFamily:"'Space Mono',monospace",fontSize:".95rem",letterSpacing:".2em",textTransform:"uppercase",color:"#E8DCC8",textDecoration:"none",opacity:.1}}>thehumanglitchreport.com</a>
       </div>
     </div>
   );
